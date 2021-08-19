@@ -22,12 +22,21 @@ passport.use(
     },
     async (req, username, password, done) => {
       try {
-        console.log(req.body.email);
-        const email = req.body.email;
-        const user = await UserModel.create({ email, username, password });
-        return done(null, user);
+        const usernameExists = await UserModel.findOne({ username });
+
+        if (!usernameExists) {
+          console.log("unique!");
+
+          const user = await UserModel.create({ username, password });
+          return done(null, user, { message: "User created" });
+        } else {
+          console.log("not unique!");
+
+          return done(null, false, { message: "Not unique username" });
+        }
       } catch (error) {
-        return done(null, error);
+        console.log("24314214", error);
+        return done(null, error, { message: "Not a unique username" });
       }
     }
   )
@@ -37,12 +46,12 @@ passport.use(
   "login",
   new localStrategy(
     {
-      usernameField: "email",
+      usernameField: "username",
       passwordField: "password",
     },
-    async (email, password, done) => {
+    async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ username });
 
         if (!user) {
           return done(null, false, { message: "User not found" });
