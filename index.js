@@ -5,11 +5,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+const MusicBrainzApi = require("musicbrainz-api").MusicBrainzApi;
 
 require("./models/User");
 
 require("./services/passport");
-
+const mbRoute = require("./routes/mbRoutes");
 const authRoute = require("./routes/authRoutes");
 // const secureRoute = require("./routes/secureRoutes");
 // const fetchRoute = require("./routes/fetchRoutes");
@@ -38,6 +39,24 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", authRoute);
+app.use("/api", mbRoute);
+
+// const mbApi = new MusicBrainzApi({
+//   appName: "my-app",
+//   appVersion: "0.1.0",
+//   appContactInfo: "user@mail.org",
+// });
+
+// async function hello() {
+//   const recording = await mbApi.getRelease(
+//     "0ace9b23-934d-4b58-a749-f0f33b883646"
+//   );
+
+//   console.log(recording);
+// }
+
+// console.log(hello());
+
 // app.use("/api", fetchRoute);
 
 // Plug in the JWT strategy as a middleware so only verified users can access this route.

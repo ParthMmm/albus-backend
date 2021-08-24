@@ -53,7 +53,7 @@ router.post("/login", async (req, res, next) => {
         };
         const token = jwt.sign({ user: body }, "TOP_SECRET");
 
-        res.json({ token });
+        res.json({ id: body._id, username: body.username, token });
         return;
       });
     } catch (error) {
