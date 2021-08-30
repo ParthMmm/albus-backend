@@ -12,6 +12,21 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  listened: [
+    {
+      mbid: String,
+    },
+  ],
+  wantToListen: [
+    {
+      mbid: String,
+    },
+  ],
+  listening: [
+    {
+      mbid: String,
+    },
+  ],
 });
 
 //Hash user passwords before saved in db
