@@ -19,7 +19,6 @@ router.get("/album_id", async (req, res, next) => {
     // country: "US",
     // primarytype: "Album",
   });
-  console.log(result);
   res.json(result.releases[0]);
   //   res.json(result.releases[0]);
 });

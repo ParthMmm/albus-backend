@@ -34,6 +34,18 @@ const checkAction = async (userID, mbID) => {
   return listened;
 };
 
+router.get("/fetchUser", async (req, res, next) => {
+  const user = await UserModel.findById(req.user._id);
+
+  const actions = {
+    listened: user.listened,
+    wantToListen: user.wantToListen,
+    listening: user.listening,
+  };
+  res.json({ actions });
+  return;
+});
+
 router.post("/addListened", async (req, res, next) => {
   const mbID = Object.keys(req.body).toString();
   const userID = req.user._id;

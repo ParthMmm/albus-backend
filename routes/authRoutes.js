@@ -23,6 +23,7 @@ router.post("/signup", async (req, res, next) => {
           _id: req.user._id,
           username: req.user.username,
         };
+
         const token = jwt.sign({ user: body }, "TOP_SECRET");
 
         res.json({ id: body._id, username: body.username, token });
@@ -47,26 +48,27 @@ router.post("/login", async (req, res, next) => {
       req.login(user, { session: true }, async (error) => {
         if (error) return next(error);
 
+        console.log(req.user);
+
         const body = {
           _id: req.user._id,
           username: req.user.username,
         };
+
+        const actions = {
+          listened: req.user.listened,
+          wantToListen: req.user.wantToListen,
+          listening: req.user.listening,
+        };
         const token = jwt.sign({ user: body }, "TOP_SECRET");
 
-        res.json({ id: body._id, username: body.username, token });
+        res.json({ id: body._id, username: body.username, token, actions });
         return;
       });
     } catch (error) {
       return next(err);
     }
   })(req, res, next);
-});
-
-router.get("/current_user", (req, res, next) => {
-  res.json({
-    message: "You made it to the secure route",
-    user: req.user,
-  });
 });
 
 router.get("/logout", (req, res, next) => {
