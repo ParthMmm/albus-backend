@@ -15,16 +15,22 @@ const userSchema = new Schema({
   listened: [
     {
       mbid: String,
+      albumName: String,
+      artist: String,
     },
   ],
   wantToListen: [
     {
       mbid: String,
+      albumName: String,
+      artist: String,
     },
   ],
   listening: [
     {
       mbid: String,
+      albumName: String,
+      artist: String,
     },
   ],
 });

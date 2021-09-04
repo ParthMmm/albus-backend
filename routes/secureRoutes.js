@@ -42,6 +42,7 @@ const checkAction = async (userID, mbID) => {
     wantToListen,
     listening,
   };
+  console.log(actions);
   return actions;
 };
 
@@ -58,11 +59,13 @@ router.get("/fetchUser", async (req, res, next) => {
 });
 
 router.post("/addListened", async (req, res, next) => {
-  const mbID = Object.keys(req.body).toString();
+  const mbID = req.body.mbid;
   const userID = req.user._id;
+  const name = req.body.name;
+  const artist = req.body.artist;
 
+  console.log(mbID, name, artist);
   const actions = await checkAction(userID, mbID);
-
   if (actions.listened) {
     return;
   }
@@ -72,8 +75,10 @@ router.post("/addListened", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listened: { mbid: mbID } },
-        $pull: { wantToListen: { mbid: mbID } },
+        $push: { listened: { mbid: mbID, albumName: name, artist: artist } },
+        $pull: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
       },
       { new: true }
     ).then((result) => {
@@ -85,8 +90,8 @@ router.post("/addListened", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listened: { mbid: mbID } },
-        $pull: { listening: { mbid: mbID } },
+        $push: { listened: { mbid: mbID, albumName: name, artist: artist } },
+        $pull: { listening: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {
@@ -95,10 +100,11 @@ router.post("/addListened", async (req, res, next) => {
 
     console.log("push listened, pull listening");
   } else {
+    console.log("1111");
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listened: { mbid: mbID } },
+        $push: { listened: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {
@@ -109,8 +115,10 @@ router.post("/addListened", async (req, res, next) => {
 });
 
 router.post("/addWantToListen", async (req, res, next) => {
-  const mbID = Object.keys(req.body).toString();
+  const mbID = req.body.mbid;
   const userID = req.user._id;
+  const name = req.body.name;
+  const artist = req.body.artist;
 
   const actions = await checkAction(userID, mbID);
 
@@ -123,8 +131,10 @@ router.post("/addWantToListen", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { wantToListen: { mbid: mbID } },
-        $pull: { listened: { mbid: mbID } },
+        $push: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
+        $pull: { listened: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {
@@ -136,8 +146,10 @@ router.post("/addWantToListen", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { wantToListen: { mbid: mbID } },
-        $pull: { listening: { mbid: mbID } },
+        $push: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
+        $pull: { listening: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {
@@ -148,7 +160,9 @@ router.post("/addWantToListen", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { wantToListen: { mbid: mbID } },
+        $push: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
       },
       { new: true }
     ).then((result) => {
@@ -158,8 +172,10 @@ router.post("/addWantToListen", async (req, res, next) => {
   }
 });
 router.post("/addListening", async (req, res, next) => {
-  const mbID = Object.keys(req.body).toString();
+  const mbID = req.body.mbid;
   const userID = req.user._id;
+  const name = req.body.name;
+  const artist = req.body.artist;
 
   const actions = await checkAction(userID, mbID);
 
@@ -172,8 +188,10 @@ router.post("/addListening", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listening: { mbid: mbID } },
-        $pull: { wantToListen: { mbid: mbID } },
+        $push: { listening: { mbid: mbID, albumName: name, artist: artist } },
+        $pull: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
       },
       { new: true }
     ).then((result) => {
@@ -185,8 +203,8 @@ router.post("/addListening", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listening: { mbid: mbID } },
-        $pull: { listened: { mbid: mbID } },
+        $push: { listening: { mbid: mbID, albumName: name, artist: artist } },
+        $pull: { listened: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {
@@ -197,7 +215,7 @@ router.post("/addListening", async (req, res, next) => {
     UserModel.findByIdAndUpdate(
       userID,
       {
-        $push: { listening: { mbid: mbID } },
+        $push: { listening: { mbid: mbID, albumName: name, artist: artist } },
       },
       { new: true }
     ).then((result) => {

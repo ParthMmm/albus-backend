@@ -13,7 +13,7 @@ require("./services/passport");
 const mbRoute = require("./routes/mbRoutes");
 const authRoute = require("./routes/authRoutes");
 const secureRoute = require("./routes/secureRoutes");
-// const fetchRoute = require("./routes/fetchRoutes");
+const fetchRoute = require("./routes/fetchRoutes");
 
 mongoose.connect(keys.DATABASE_URL, {
   useNewUrlParser: true,
@@ -40,6 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", authRoute);
 app.use("/api", mbRoute);
+app.use("/api", fetchRoute);
 
 // const mbApi = new MusicBrainzApi({
 //   appName: "my-app",
