@@ -76,6 +76,8 @@ router.get("/logout", (req, res, next) => {
   res.json({ user: req.user });
 });
 
+router.post("/updateInfo", (req, res, next) => {});
+
 passport.use(
   new JWTstrategy(
     {

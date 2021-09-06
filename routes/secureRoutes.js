@@ -54,8 +54,34 @@ router.get("/fetchUser", async (req, res, next) => {
     wantToListen: user.wantToListen,
     listening: user.listening,
   };
-  res.json({ actions });
+
+  const info = {
+    info: user.info,
+  };
+  console.log(user.info);
+
+  const freshInfo = { actions, info };
+  res.json(freshInfo);
   return;
+});
+
+router.post("/updateInfo", async (req, res, next) => {
+  const userID = req.user._id;
+  const genre = req.body.genre;
+  const artist = req.body.artist;
+  const album = req.body.album;
+
+  console.log(userID, genre, artist, album);
+
+  UserModel.findByIdAndUpdate(
+    userID,
+    {
+      $set: { info: { genre: genre, artist: artist, album: album } },
+    },
+    { new: true }
+  ).then((result) => {
+    res.status(200).send(result);
+  });
 });
 
 router.post("/addListened", async (req, res, next) => {

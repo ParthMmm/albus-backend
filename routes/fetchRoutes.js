@@ -11,10 +11,11 @@ router.post("/fetchUserInfo", async (req, res, next) => {
           listened: result.listened,
           wantToListen: result.wantToListen,
           listening: result.listening,
+          info: result.info,
         };
         console.log(user);
         // res.json(user);
-        res.status(200).send(result);
+        res.status(200).send(user);
       })
       .catch((error) => {
         res.status(400).send(error);

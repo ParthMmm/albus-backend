@@ -33,6 +33,11 @@ const userSchema = new Schema({
       artist: String,
     },
   ],
+  info: {
+    genre: String,
+    artist: String,
+    album: String,
+  },
 });
 
 //Hash user passwords before saved in db
