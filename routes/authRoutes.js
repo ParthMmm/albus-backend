@@ -41,7 +41,7 @@ router.post("/login", async (req, res, next) => {
       if (err || !user) {
         // res.status(404);
         res.status(201);
-        res.send(info.message); // return next(info.message);
+        res.send({ msg: info.message });
         return;
       }
 
@@ -75,8 +75,6 @@ router.get("/logout", (req, res, next) => {
   req.logout();
   res.json({ user: req.user });
 });
-
-router.post("/updateInfo", (req, res, next) => {});
 
 passport.use(
   new JWTstrategy(

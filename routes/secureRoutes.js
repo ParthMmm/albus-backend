@@ -70,13 +70,23 @@ router.post("/updateInfo", async (req, res, next) => {
   const genre = req.body.genre;
   const artist = req.body.artist;
   const album = req.body.album;
+  const spotify = req.body.spotify;
+  const lastfm = req.body.lastfm;
 
   console.log(userID, genre, artist, album);
 
   UserModel.findByIdAndUpdate(
     userID,
     {
-      $set: { info: { genre: genre, artist: artist, album: album } },
+      $set: {
+        info: {
+          genre: genre,
+          artist: artist,
+          album: album,
+          spotify: spotify,
+          lastfm: lastfm,
+        },
+      },
     },
     { new: true }
   ).then((result) => {
@@ -92,11 +102,22 @@ router.post("/addListened", async (req, res, next) => {
 
   console.log(mbID, name, artist);
   const actions = await checkAction(userID, mbID);
+  console.log(actions);
   if (actions.listened) {
-    return;
-  }
+    console.log("pull listened");
 
-  if (actions.wantToListen) {
+    UserModel.findByIdAndUpdate(
+      userID,
+      {
+        $pull: {
+          listened: { mbid: mbID, albumName: name, artist: artist },
+        },
+      },
+      { new: true }
+    ).then((result) => {
+      res.status(200).send(result);
+    });
+  } else if (actions.wantToListen) {
     //push and pull
     UserModel.findByIdAndUpdate(
       userID,
@@ -149,10 +170,20 @@ router.post("/addWantToListen", async (req, res, next) => {
   const actions = await checkAction(userID, mbID);
 
   if (actions.wantToListen) {
-    return;
-  }
+    console.log("pull want to listen");
 
-  if (actions.listened) {
+    UserModel.findByIdAndUpdate(
+      userID,
+      {
+        $pull: {
+          wantToListen: { mbid: mbID, albumName: name, artist: artist },
+        },
+      },
+      { new: true }
+    ).then((result) => {
+      res.status(200).send(result);
+    });
+  } else if (actions.listened) {
     //push and pull
     UserModel.findByIdAndUpdate(
       userID,
@@ -206,10 +237,19 @@ router.post("/addListening", async (req, res, next) => {
   const actions = await checkAction(userID, mbID);
 
   if (actions.listening) {
-    return;
-  }
-
-  if (actions.wantToListen) {
+    console.log("pull listening");
+    UserModel.findByIdAndUpdate(
+      userID,
+      {
+        $pull: {
+          listening: { mbid: mbID, albumName: name, artist: artist },
+        },
+      },
+      { new: true }
+    ).then((result) => {
+      res.status(200).send(result);
+    });
+  } else if (actions.wantToListen) {
     //push and pull
     UserModel.findByIdAndUpdate(
       userID,

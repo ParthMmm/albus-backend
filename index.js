@@ -74,5 +74,9 @@ app.use(function (err, req, res, next) {
   res.json({ error: err });
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to albus!");
+});
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server running on port ${port} 🚀`));

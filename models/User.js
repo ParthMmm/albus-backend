@@ -37,6 +37,8 @@ const userSchema = new Schema({
     genre: String,
     artist: String,
     album: String,
+    spotify: String,
+    lastfm: String,
   },
 });
 
