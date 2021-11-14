@@ -61,7 +61,7 @@ router.get("/fetchUser", async (req, res, next) => {
   console.log(user.info);
 
   const freshInfo = { actions, info };
-  res.json(freshInfo);
+  res.status(200).send(freshInfo);
   return;
 });
 
@@ -73,7 +73,7 @@ router.post("/updateInfo", async (req, res, next) => {
   const spotify = req.body.spotify;
   const lastfm = req.body.lastfm;
 
-  console.log(userID, genre, artist, album);
+  console.log(userID, genre, artist, album, spotify, lastfm);
 
   UserModel.findByIdAndUpdate(
     userID,

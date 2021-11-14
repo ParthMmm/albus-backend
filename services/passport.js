@@ -28,11 +28,11 @@ passport.use(
           console.log("unique!");
 
           const user = await UserModel.create({ username, password });
-          return done(null, user, { message: "User created" });
+          return done(null, user, { message: "User created!" });
         } else {
           console.log("not unique!");
 
-          return done(null, false, { message: "Not unique username" });
+          return done(null, false, { message: "Not a unique username" });
         }
       } catch (error) {
         console.log("24314214", error);

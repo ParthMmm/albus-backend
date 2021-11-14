@@ -25,4 +25,10 @@ router.post("/fetchUserInfo", async (req, res, next) => {
   }
 });
 
+router.post("latestActivity", async (req,res,next) => {
+  if(req.body.userID){
+    await Us
+  }
+})
+
 module.exports = router;

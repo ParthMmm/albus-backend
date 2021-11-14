@@ -8,8 +8,11 @@ router.post("/signup", async (req, res, next) => {
   passport.authenticate("signup", async (err, user, info) => {
     try {
       if (err || !user) {
-        res.status(201);
-        res.send({ msg: info.message });
+        console.log(info.message);
+        res.status(400);
+        res.statusMessage = info.message;
+
+        // res.send({ error: info.message });
         return;
       }
       req.login(user, { session: true }, async (error, info) => {
@@ -40,8 +43,11 @@ router.post("/login", async (req, res, next) => {
     try {
       if (err || !user) {
         // res.status(404);
-        res.status(201);
-        res.send({ msg: info.message });
+        // res.status(401);
+        console.log(info.message);
+        // res.status(400);
+        // res.statusMessage = info.message;
+        res.status(400).send({ error: info.message });
         return;
       }
 
@@ -60,9 +66,18 @@ router.post("/login", async (req, res, next) => {
           wantToListen: req.user.wantToListen,
           listening: req.user.listening,
         };
+
+        const info = req.user.info;
+
         const token = jwt.sign({ user: body }, "TOP_SECRET");
 
-        res.json({ id: body._id, username: body.username, token, actions });
+        res.json({
+          id: body._id,
+          username: body.username,
+          token,
+          // actions,
+          // info,
+        });
         return;
       });
     } catch (error) {
