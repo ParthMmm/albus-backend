@@ -9,8 +9,7 @@ router.post("/signup", async (req, res, next) => {
     try {
       if (err || !user) {
         console.log(info.message);
-        res.status(400);
-        res.statusMessage = info.message;
+        res.send({ error: info.message });
 
         // res.send({ error: info.message });
         return;
@@ -47,7 +46,7 @@ router.post("/login", async (req, res, next) => {
         console.log(info.message);
         // res.status(400);
         // res.statusMessage = info.message;
-        res.status(400).send({ error: info.message });
+        res.send({ error: info.message });
         return;
       }
 
