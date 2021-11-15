@@ -18,17 +18,17 @@ router.post("/fetchUserInfo", async (req, res, next) => {
         res.status(200).send(user);
       })
       .catch((error) => {
-        res.status(400).send(error);
+        res.send(error);
       });
   } else {
-    res.status(401).send();
+    res.send();
   }
 });
 
-router.post("latestActivity", async (req,res,next) => {
-  if(req.body.userID){
-    await Us
+router.post("latestActivity", async (req, res, next) => {
+  if (req.body.userID) {
+    await Us;
   }
-})
+});
 
 module.exports = router;
