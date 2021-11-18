@@ -8,6 +8,7 @@ const cookieSession = require("cookie-session");
 const MusicBrainzApi = require("musicbrainz-api").MusicBrainzApi;
 
 require("./models/User");
+require("./models/Review");
 
 require("./services/passport");
 const mbRoute = require("./routes/mbRoutes");

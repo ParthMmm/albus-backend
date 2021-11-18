@@ -13,7 +13,7 @@ router.post("/fetchUserInfo", async (req, res, next) => {
           listening: result.listening,
           info: result.info,
         };
-        console.log(user);
+        // console.log(user);
         // res.json(user);
         res.status(200).send(user);
       })
@@ -22,12 +22,6 @@ router.post("/fetchUserInfo", async (req, res, next) => {
       });
   } else {
     res.send();
-  }
-});
-
-router.post("latestActivity", async (req, res, next) => {
-  if (req.body.userID) {
-    await Us;
   }
 });
 

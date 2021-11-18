@@ -3,8 +3,11 @@ const jwt = require("jsonwebtoken");
 const JWTstrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 const UserModel = require("../models/User");
+const ReviewModel = require("../models/Review");
 const { ConnectionStates } = require("mongoose");
 const router = require("express").Router();
+// const dateFormat = require("dateformat");
+
 var _ = require("lodash");
 
 const checkAction = async (userID, mbID) => {
@@ -289,5 +292,26 @@ router.post("/addListening", async (req, res, next) => {
     });
     console.log("push listening");
   }
+});
+
+router.post("/createReview", async (req, res, next) => {
+  const user = req.user;
+  const mbID = req.body.mbid;
+  const rating = req.body.rating;
+  const title = req.body.title;
+  const reviewBody = req.body.reviewBody;
+
+  const review = new ReviewModel({
+    rating,
+    title,
+    reviewBody,
+    _user: req.user,
+    // datePosted: Date.now(),
+  });
+
+  ReviewModel.create(review), function (err) {};
+  res.status(200).send("created review");
+
+  console.log(user, rating, title, reviewBody);
 });
 module.exports = router;
