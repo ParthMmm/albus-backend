@@ -301,17 +301,20 @@ router.post("/createReview", async (req, res, next) => {
   const title = req.body.title;
   const reviewBody = req.body.reviewBody;
 
+  // console.log(req.body);
+  console.log(req.user);
+
   const review = new ReviewModel({
     rating,
     title,
     reviewBody,
-    _user: req.user,
-    // datePosted: Date.now(),
+    user: req.user,
+    datePosted: Date.now(),
   });
 
   ReviewModel.create(review), function (err) {};
   res.status(200).send("created review");
 
-  console.log(user, rating, title, reviewBody);
+  console.log(review);
 });
 module.exports = router;

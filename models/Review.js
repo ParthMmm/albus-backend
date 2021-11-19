@@ -19,7 +19,12 @@ const reviewSchema = new Schema({
     type: String,
     required: true,
   },
-  _user: { type: Schema.Types.ObjectId, ref: "User" },
+
+  user: {
+    _id: String,
+    username: String,
+  },
+
   //   datePosted: String,
 });
 
