@@ -20,7 +20,7 @@ router.get("/album_id", async (req, res, next) => {
     // primarytype: "Album",
   });
   res.status(200).json(result.releases[0]);
-  console.log(result.releases[0]);
+  // console.log(result.releases[0]);
   //   res.json(result.releases[0]);
 });
 

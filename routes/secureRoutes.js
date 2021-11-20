@@ -295,25 +295,35 @@ router.post("/addListening", async (req, res, next) => {
 });
 
 router.post("/createReview", async (req, res, next) => {
-  const user = req.user;
-  const mbID = req.body.mbid;
   const rating = req.body.rating;
   const title = req.body.title;
   const reviewBody = req.body.reviewBody;
-
+  const album = req.body.album;
   // console.log(req.body);
-  console.log(req.user);
+  console.log(req.body);
 
   const review = new ReviewModel({
     rating,
     title,
     reviewBody,
+    album,
     user: req.user,
     datePosted: Date.now(),
   });
 
-  ReviewModel.create(review), function (err) {};
-  res.status(200).send("created review");
+  await ReviewModel.create(review), function (err) {};
+
+  await UserModel.findByIdAndUpdate(
+    req.user._id,
+    {
+      $push: {
+        reviews: { id: review._id },
+      },
+    },
+    { new: true }
+  ).then((result) => {
+    res.status(200).send();
+  });
 
   console.log(review);
 });

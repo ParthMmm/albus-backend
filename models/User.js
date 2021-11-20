@@ -40,6 +40,11 @@ const userSchema = new Schema({
     spotify: String,
     lastfm: String,
   },
+  reviews: [
+    {
+      _review: { type: Schema.Types.ObjectId, ref: "Review" },
+    },
+  ],
 });
 
 //Hash user passwords before saved in db

@@ -3,9 +3,6 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
 const reviewSchema = new Schema({
-  mbid: {
-    type: String,
-  },
   rating: {
     type: Number,
     required: true,
@@ -19,11 +16,18 @@ const reviewSchema = new Schema({
     type: String,
     required: true,
   },
+  album: {
+    mbid: String,
+    albumName: String,
+    artist: String,
+  },
 
   user: {
     _id: String,
     username: String,
   },
+
+  datePosted: String,
 
   //   datePosted: String,
 });

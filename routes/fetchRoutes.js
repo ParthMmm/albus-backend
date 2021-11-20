@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const ReviewModel = require("../models/Review");
 const UserModel = require("../models/User");
 
 router.post("/fetchUserInfo", async (req, res, next) => {
@@ -22,6 +23,25 @@ router.post("/fetchUserInfo", async (req, res, next) => {
       });
   } else {
     res.send();
+  }
+});
+
+router.get("/fetchAlbumReviews", async (req, res, next) => {
+  const albumName = req.query.albumName;
+  const artist = req.query.artist;
+  const mbid = req.body.mbid;
+  if (albumName && artist) {
+    await ReviewModel.find({
+      "album.albumName": albumName,
+      "album.artist": artist,
+    })
+      .then((result) => {
+        console.log(result);
+        res.status(200).send(result);
+      })
+      .catch((error) => {
+        res.send(error);
+      });
   }
 });
 
