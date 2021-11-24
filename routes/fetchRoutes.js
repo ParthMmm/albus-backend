@@ -45,4 +45,18 @@ router.get("/fetchAlbumReviews", async (req, res, next) => {
   }
 });
 
+router.get("/fetchUserReviews", async (req, res, next) => {
+  // console.log(req.user);
+  const id = req.query.id;
+  console.log(id);
+  if (id) {
+    await ReviewModel.find({
+      "user._id": id,
+    }).then((result) => {
+      console.log(result);
+      res.status(200).send(result);
+    });
+  }
+});
+
 module.exports = router;
