@@ -302,13 +302,15 @@ router.post("/createReview", async (req, res, next) => {
   // console.log(req.body);
   console.log(req.body);
 
+  const dateTime = new Date();
+
   const review = new ReviewModel({
     rating,
     title,
     reviewBody,
     album,
     user: req.user,
-    datePosted: Date.now(),
+    datePosted: dateTime,
   });
 
   await ReviewModel.create(review), function (err) {};

@@ -31,17 +31,24 @@ router.get("/fetchAlbumReviews", async (req, res, next) => {
   const artist = req.query.artist;
   const mbid = req.body.mbid;
   if (albumName && artist) {
-    await ReviewModel.find({
-      "album.albumName": albumName,
-      "album.artist": artist,
-    })
-      .then((result) => {
-        console.log(result);
-        res.status(200).send(result);
-      })
-      .catch((error) => {
-        res.send(error);
-      });
+    await ReviewModel.find(
+      {
+        "album.albumName": albumName,
+        "album.artist": artist,
+      },
+      (err, reviews) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (reviews.length) {
+          console.log(reviews);
+
+          res.status(200).send(reviews);
+        }
+        return;
+      }
+    );
   }
 });
 
@@ -50,12 +57,21 @@ router.get("/fetchUserReviews", async (req, res, next) => {
   const id = req.query.id;
   console.log(id);
   if (id) {
-    await ReviewModel.find({
-      "user._id": id,
-    }).then((result) => {
-      console.log(result);
-      res.status(200).send(result);
-    });
+    await ReviewModel.find(
+      {
+        "user._id": id,
+      },
+      (err, reviews) => {
+        if (err) {
+          return;
+        }
+        if (reviews.length) {
+          // console.log(reviews);
+          res.status(200).send(reviews);
+        }
+        return;
+      }
+    );
   }
 });
 
