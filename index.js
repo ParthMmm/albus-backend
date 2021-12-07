@@ -43,24 +43,6 @@ app.use("/api", authRoute);
 app.use("/api", mbRoute);
 app.use("/api", fetchRoute);
 
-// const mbApi = new MusicBrainzApi({
-//   appName: "my-app",
-//   appVersion: "0.1.0",
-//   appContactInfo: "user@mail.org",
-// });
-
-// async function hello() {
-//   const recording = await mbApi.getRelease(
-//     "0ace9b23-934d-4b58-a749-f0f33b883646"
-//   );
-
-//   console.log(recording);
-// }
-
-// console.log(hello());
-
-// app.use("/api", fetchRoute);
-
 // Plug in the JWT strategy as a middleware so only verified users can access this route.
 
 app.use(

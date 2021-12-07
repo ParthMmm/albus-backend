@@ -45,9 +45,25 @@ const checkAction = async (userID, mbID) => {
     wantToListen,
     listening,
   };
-  console.log(actions);
+  console.log("check", actions);
   return actions;
 };
+
+router.get("/checkActions", async (req, res) => {
+  const mbID = req.query.mbid;
+  const userID = req.user._id;
+  // const name = req.body.name;
+  // const artist = req.body.artist;
+  console.log(mbID, userID);
+  const actions = await checkAction(userID, mbID);
+  if (actions) {
+    console.log("sent", actions);
+    res.status(200).send(actions);
+    return;
+  }
+  res.send(false);
+  return;
+});
 
 router.get("/fetchUser", async (req, res, next) => {
   const user = await UserModel.findById(req.user._id);
@@ -162,6 +178,7 @@ router.post("/addListened", async (req, res, next) => {
     });
     console.log("push listened");
   }
+  console.log(actions);
 });
 
 router.post("/addWantToListen", async (req, res, next) => {
